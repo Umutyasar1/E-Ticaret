@@ -67,7 +67,7 @@
 				<td align="left"><b>3. Şahıslar</b></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left">Extra Eğitim kullanıcı hesapları hakkında (Örneğin; Bilgi edinme, şifre talebi vb. gibi) herhangi bir yakını, arkadaşı vb. gibi 3. şahıslar tarafından gönderilen mesajlar.</td>
+				<td colspan="2" align="left">Umut Magazam kullanıcı hesapları hakkında (Örneğin; Bilgi edinme, şifre talebi vb. gibi) herhangi bir yakını, arkadaşı vb. gibi 3. şahıslar tarafından gönderilen mesajlar.</td>
 			</tr>
 			<tr>
 				<td colspan="2">&nbsp;</td>

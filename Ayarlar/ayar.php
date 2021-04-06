@@ -2,7 +2,7 @@
 
 try {
     
-    $db_ad='e-Ticaret';
+    $db_ad='eTicaret';
     $db_kullanici='root';
     $db_sifre='';
     $Connection = new PDO('mysql:host=localhost;dbname='.$db_ad, $db_kullanici, $db_sifre);
