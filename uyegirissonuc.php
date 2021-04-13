@@ -19,7 +19,7 @@ if(isset($_POST["Sifre"])){
 
 $MD5liSifre					=	md5($GelenSifre);
 
-if(($GelenEmailAdresi!="") and ($GelenSifre!="")){
+if(($GelenEmailAdresi!="") && ($GelenSifre!="")){
 	$KontrolSorgusu		=	$Connection->prepare("SELECT * FROM uyeler WHERE EmailAdresi = ? AND Sifre = ? AND SilinmeDurumu = ?");
 	$KontrolSorgusu->execute([$GelenEmailAdresi, $MD5liSifre, 0]);
 	$KullaniciSayisi	=	$KontrolSorgusu->rowCount();
