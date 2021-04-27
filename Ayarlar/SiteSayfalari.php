@@ -83,6 +83,32 @@ $Sayfa[79]		=	"hesabimyorumyapsonuceksikalan.php";
 $Sayfa[80]		=	"hesabimyorumlar.php";
 $Sayfa[81]		=	"hesabimfavorilersil.php";
 $Sayfa[82]		=	"hesabimfavorilersilhata.php";
-
+$Sayfa[83]		=	"urundetay.php";
+$Sayfa[84]		=	"erkekmontlari.php";
+$Sayfa[85]		=	"kadinmontlari.php";
+$Sayfa[86]		=	"erkekpantolonlari.php";
+$Sayfa[87]		=	"kadinpantolonlari.php";
+$Sayfa[88]		=	"erkektshirt.php";
+$Sayfa[89]		=	"kadintshirt.php";
+$Sayfa[90]		=	"favorilereekle.php";
+$Sayfa[91]		=	"favorilereekletamam.php";
+$Sayfa[92]		=	"favorilereeklehata.php";
+$Sayfa[93]		=	"favorilereekletekrarlanan.php";
+$Sayfa[94]		=	"sepeteekle.php";
+$Sayfa[95]		=	"sepeteeklehata.php";
+$Sayfa[96]		=	"sepeteekleuyegirisiyapilmamis.php";
+$Sayfa[97]		=	"alisverissepeti.php";
+$Sayfa[98]		=	"alisverissepetiurunsil.php";
+$Sayfa[99]		=	"alisverissepetiurunadetazalt.php";
+$Sayfa[100]		=	"alisverissepetiurunadetarttir.php";
+$Sayfa[101]		=	"alisverissepetiadresvekargosecimi.php";
+$Sayfa[102]		=	"alisverissepetiodemesecimi.php";
+$Sayfa[103]		=	"alisverissepetiodemesecimisonuc.php";
+$Sayfa[104]		=	"alisverissepetibankahavalesiileodemetamam.php";
+$Sayfa[105]		=	"alisverissepetibankahavalesiileodemehata.php";
+$Sayfa[106]		=	"alisverissepetikredikartiodeme.php";
+$Sayfa[107]		=	"alisverissepetikredikartiodemesonuc.php";
+$Sayfa[108]		=	"alisverissepetikredikartiodemesonuctamam.php";
+$Sayfa[109]		=	"alisverissepetikredikartiodemesonuchata.php";
 
 ?>
