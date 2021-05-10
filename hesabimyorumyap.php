@@ -68,7 +68,7 @@ if(isset($_SESSION["Kullanici"])){
 				<td  style="color:#FF9900"><h3>Reklam</h3></td>
 			</tr>
 			<tr height="30">
-				<td valign="top" style="border-bottom: 1px dashed #CCCCCC;">ExtraEgitim.net Reklamları.</td>
+				<td valign="top" style="border-bottom: 1px dashed #CCCCCC;">UmutMagazam.net Reklamları.</td>
 			</tr>
 			<tr height="5">
 				<td height="5" style="font-size: 5px;">&nbsp;</td>
