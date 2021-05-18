@@ -12,7 +12,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 	
 	if(($GelenID!="") and ($GelenMenuAdi!="")){	
-		$MenuGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE menuler SET MenuAdi = ? WHERE id = ? LIMIT 1");
+		$MenuGuncellemeSorgusu	=	$Connection->prepare("UPDATE menuler SET MenuAdi = ? WHERE id = ? LIMIT 1");
 		$MenuGuncellemeSorgusu->execute([$GelenMenuAdi, $GelenID]);
 		$MenuGuncellemeKontrol	=	$MenuGuncellemeSorgusu->rowCount();
 		

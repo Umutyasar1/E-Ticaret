@@ -3,7 +3,7 @@ if(isset($_SESSION["Kullanici"])){
 	
 $SayfalamaIcinSolVeSagButonSayisi		=	2;
 $SayfaBasinaGosterilecekKayitSayisi		=	10;
-$ToplamKayitSayisiSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM yorumlar WHERE UyeId = ? ORDER BY YorumTarihi DESC");
+$ToplamKayitSayisiSorgusu				=	$Connection->prepare("SELECT * FROM yorumlar WHERE UyeId = ? ORDER BY YorumTarihi DESC");
 $ToplamKayitSayisiSorgusu->execute([$KullaniciID]);
 $ToplamKayitSayisiSorgusu				=	$ToplamKayitSayisiSorgusu->rowCount();
 $SayfalamayaBaslanacakKayitSayisi		=	($Sayfalama*$SayfaBasinaGosterilecekKayitSayisi)-$SayfaBasinaGosterilecekKayitSayisi;
@@ -45,7 +45,7 @@ $BulunanSayfaSayisi						=	ceil($ToplamKayitSayisiSorgusu/$SayfaBasinaGosterilec
 					<td width="75" style="background: #f8ffa7; color: black;" align="left">Yorum&nbsp;</td>
 				</tr>
 				<?php
-				$YorumlarSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM yorumlar WHERE UyeId = ? ORDER BY YorumTarihi DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
+				$YorumlarSorgusu		=	$Connection->prepare("SELECT * FROM yorumlar WHERE UyeId = ? ORDER BY YorumTarihi DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
 				$YorumlarSorgusu->execute([$KullaniciID]);
 				$YorumlarSayisi			=	$YorumlarSorgusu->rowCount();
 				$YorumlarKayitlari		=	$YorumlarSorgusu->fetchAll(PDO::FETCH_ASSOC);

@@ -3,7 +3,7 @@ if(isset($_SESSION["Kullanici"])){
 	
 $SayfalamaIcinSolVeSagButonSayisi		=	2;
 $SayfaBasinaGosterilecekKayitSayisi		=	10;
-$ToplamKayitSayisiSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM favoriler WHERE UyeId = ? ORDER BY id DESC");
+$ToplamKayitSayisiSorgusu				=	$Connection->prepare("SELECT * FROM favoriler WHERE UyeId = ? ORDER BY id DESC");
 $ToplamKayitSayisiSorgusu->execute([$KullaniciID]);
 $ToplamKayitSayisiSorgusu				=	$ToplamKayitSayisiSorgusu->rowCount();
 $SayfalamayaBaslanacakKayitSayisi		=	($Sayfalama*$SayfaBasinaGosterilecekKayitSayisi)-$SayfaBasinaGosterilecekKayitSayisi;
@@ -47,14 +47,14 @@ $BulunanSayfaSayisi						=	ceil($ToplamKayitSayisiSorgusu/$SayfaBasinaGosterilec
 					<td width="100" style="background: #f8ffa7; color: black;" align="left">Fiyatı</td>
 				</tr>
 				<?php
-				$FavorilerSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM favoriler WHERE UyeId = ? ORDER BY id DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
+				$FavorilerSorgusu		=	$Connection->prepare("SELECT * FROM favoriler WHERE UyeId = ? ORDER BY id DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
 				$FavorilerSorgusu->execute([$KullaniciID]);
 				$FavoriSayisi			=	$FavorilerSorgusu->rowCount();
 				$FavoriKayitlari		=	$FavorilerSorgusu->fetchAll(PDO::FETCH_ASSOC);
 	
 				if($FavoriSayisi>0){
 					foreach($FavoriKayitlari as $FavoriSatirlar){
-						$UrunlerSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+						$UrunlerSorgusu		=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 						$UrunlerSorgusu->execute([$FavoriSatirlar["UrunId"]]);
 						$UrunKaydi			=	$UrunlerSorgusu->fetch(PDO::FETCH_ASSOC);
 							

@@ -3,7 +3,7 @@ if(isset($_SESSION["Kullanici"])){
 	
 $SayfalamaIcinSolVeSagButonSayisi		=	2;
 $SayfaBasinaGosterilecekKayitSayisi		=	10;
-$ToplamKayitSayisiSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE UyeId = ? ORDER BY SiparisNumarasi DESC");
+$ToplamKayitSayisiSorgusu				=	$Connection->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE UyeId = ? ORDER BY SiparisNumarasi DESC");
 $ToplamKayitSayisiSorgusu->execute([$KullaniciID]);
 $ToplamKayitSayisiSorgusu				=	$ToplamKayitSayisiSorgusu->rowCount();
 $SayfalamayaBaslanacakKayitSayisi		=	($Sayfalama*$SayfaBasinaGosterilecekKayitSayisi)-$SayfaBasinaGosterilecekKayitSayisi;
@@ -51,7 +51,7 @@ $BulunanSayfaSayisi						=	ceil($ToplamKayitSayisiSorgusu/$SayfaBasinaGosterilec
 					<td width="150" style="background: #f8ffa7; color: black;" align="left">Kargo Durumu / Takip</td>
 				</tr>
 				<?php
-				$SiparisNumaralariSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE UyeId = ? ORDER BY SiparisNumarasi DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
+				$SiparisNumaralariSorgusu		=	$Connection->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE UyeId = ? ORDER BY SiparisNumarasi DESC LIMIT $SayfalamayaBaslanacakKayitSayisi, $SayfaBasinaGosterilecekKayitSayisi");
 				$SiparisNumaralariSorgusu->execute([$KullaniciID]);
 				$SiparisNumaralariSayisi		=	$SiparisNumaralariSorgusu->rowCount();
 				$SiparisNumaralariKayitlari		=	$SiparisNumaralariSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -60,7 +60,7 @@ $BulunanSayfaSayisi						=	ceil($ToplamKayitSayisiSorgusu/$SayfaBasinaGosterilec
 					foreach($SiparisNumaralariKayitlari as $SiparisNumaralariSatirlar){
 						$SiparisNo		=	DonusumleriGeriDondur($SiparisNumaralariSatirlar["SiparisNumarasi"]);
 						
-						$SiparisSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ? ORDER BY id ASC");
+						$SiparisSorgusu				=	$Connection->prepare("SELECT * FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ? ORDER BY id ASC");
 						$SiparisSorgusu->execute([$KullaniciID, $SiparisNo]);
 						$SiparisSorgusuKayitlari	=	$SiparisSorgusu->fetchAll(PDO::FETCH_ASSOC);
 						

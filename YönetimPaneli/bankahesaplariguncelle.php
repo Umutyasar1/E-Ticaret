@@ -6,7 +6,7 @@ if(isset($_SESSION["Yonetici"])){
 		$GelenID			=	"";
 	}
 	
-	$HesaplarSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
+	$HesaplarSorgusu	=	$Connection->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
 	$HesaplarSorgusu->execute([$GelenID]);
 	$HesaplarSayisi		=	$HesaplarSorgusu->rowCount();
 	$HesapBilgisi		=	$HesaplarSorgusu->fetch(PDO::FETCH_ASSOC);

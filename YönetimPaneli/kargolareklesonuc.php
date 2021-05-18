@@ -18,7 +18,7 @@ if(isset($_SESSION["Yonetici"])){
 		
 		$ResimIcinYeniDosyaAdi		=	$ResimIcinDosyaAdi.$GelenResminUzantisi;
 		
-		$KargoEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO kargofirmalari (KargoFirmasiLogosu, KargoFirmasiAdi) values (?, ?)");
+		$KargoEklemeSorgusu		=	$Connection->prepare("INSERT INTO kargofirmalari (KargoFirmasiLogosu, KargoFirmasiAdi) values (?, ?)");
 		$KargoEklemeSorgusu->execute([$ResimIcinYeniDosyaAdi, $GelenKargoFirmasiAdi]);
 		$KargoEklemeKontrol		=	$KargoEklemeSorgusu->rowCount();
 		

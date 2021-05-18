@@ -27,7 +27,7 @@ if(isset($_SESSION["Kullanici"])){
 	}
 
 	if(($GelenIsimSoyisim!="") and ($GelenAdres!="") and ($GelenIlce!="") and ($GelenSehir!="") and ($GelenTelefonNumarasi!="")){
-		$AdresEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO adresler (UyeId, AdiSoyadi, Adres, Ilce, Sehir, TelefonNumarasi) values (?, ?, ?, ?, ?, ?)");
+		$AdresEklemeSorgusu		=	$Connection->prepare("INSERT INTO adresler (UyeId, AdiSoyadi, Adres, Ilce, Sehir, TelefonNumarasi) values (?, ?, ?, ?, ?, ?)");
 		$AdresEklemeSorgusu->execute([$KullaniciID, $GelenIsimSoyisim, $GelenAdres, $GelenIlce, $GelenSehir, $GelenTelefonNumarasi]);
 		$EklemeKontrol			=	$AdresEklemeSorgusu->rowCount();
 		

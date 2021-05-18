@@ -7,12 +7,12 @@ if(isset($_SESSION["Yonetici"])){
 	}
 
 	if($GelenID!=""){
-		$MenuSilmeSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM menuler WHERE id = ? LIMIT 1");
+		$MenuSilmeSorgusu		=	$Connection->prepare("DELETE FROM menuler WHERE id = ? LIMIT 1");
 		$MenuSilmeSorgusu->execute([$GelenID]);
 		$MenuSilmeKontrol		=	$MenuSilmeSorgusu->rowCount();
 
 		if($MenuSilmeKontrol>0){
-			$UrunlerSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE MenuId = ?");
+			$UrunlerSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE MenuId = ?");
 			$UrunlerSorgusu->execute([$GelenID]);
 			$UrunlerSorgusuKontrol	=	$UrunlerSorgusu->rowCount();
 			$UrunlerKayitlari		=	$UrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -21,13 +21,13 @@ if(isset($_SESSION["Yonetici"])){
 				foreach($UrunlerKayitlari as $UrunKaydi){
 					$SilinecekUrununIDsi	=	$UrunKaydi["id"];
 				
-					$UrunlerGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE urunler SET Durumu = ? WHERE id = ? AND MenuId = ?");
+					$UrunlerGuncellemeSorgusu	=	$Connection->prepare("UPDATE urunler SET Durumu = ? WHERE id = ? AND MenuId = ?");
 					$UrunlerGuncellemeSorgusu->execute([0, $SilinecekUrununIDsi, $GelenID]);
 			
-					$SepetSilmeSorgusu			=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE UrunId = ?");
+					$SepetSilmeSorgusu			=	$Connection->prepare("DELETE FROM sepet WHERE UrunId = ?");
 					$SepetSilmeSorgusu->execute([$SilinecekUrununIDsi]);
 			
-					$FavorilerSilmeSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM favoriler WHERE UrunId = ?");
+					$FavorilerSilmeSorgusu		=	$Connection->prepare("DELETE FROM favoriler WHERE UrunId = ?");
 					$FavorilerSilmeSorgusu->execute([$SilinecekUrununIDsi]);
 				}
 			}

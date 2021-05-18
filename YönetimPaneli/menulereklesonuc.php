@@ -12,7 +12,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 	
 	if(($GelenUrunTuru!="") and ($GelenMenuAdi!="")){	
-		$MenuEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO menuler (UrunTuru, MenuAdi) values (?, ?)");
+		$MenuEklemeSorgusu		=	$Connection->prepare("INSERT INTO menuler (UrunTuru, MenuAdi) values (?, ?)");
 		$MenuEklemeSorgusu->execute([$GelenUrunTuru, $GelenMenuAdi]);
 		$MenuEklemeKontrol		=	$MenuEklemeSorgusu->rowCount();
 

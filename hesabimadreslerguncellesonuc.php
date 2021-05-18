@@ -32,7 +32,7 @@ if(isset($_SESSION["Kullanici"])){
 	}
 
 	if(($GelenID!="") and ($GelenIsimSoyisim!="") and ($GelenAdres!="") and ($GelenIlce!="") and ($GelenSehir!="") and ($GelenTelefonNumarasi!="")){
-		$AdresGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE adresler SET AdiSoyadi = ?, Adres = ?, Ilce = ?, Sehir = ?, TelefonNumarasi = ?  WHERE id = ? AND UyeId = ? LIMIT 1");
+		$AdresGuncellemeSorgusu		=	$Connection->prepare("UPDATE adresler SET AdiSoyadi = ?, Adres = ?, Ilce = ?, Sehir = ?, TelefonNumarasi = ?  WHERE id = ? AND UyeId = ? LIMIT 1");
 		$AdresGuncellemeSorgusu->execute([$GelenIsimSoyisim, $GelenAdres, $GelenIlce, $GelenSehir, $GelenTelefonNumarasi, $GelenID, $KullaniciID]);
 		$GuncellemeKontrol			=	$AdresGuncellemeSorgusu->rowCount();
 		

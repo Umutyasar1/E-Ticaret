@@ -58,7 +58,7 @@ if(isset($_SESSION["Yonetici"])){
 		
 		$ResimIcinYeniDosyaAdi		=	$ResimIcinDosyaAdi.$GelenResminUzantisi;
 		
-		$HesapEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO bankahesaplarimiz (BankaLogosu, BankaAdi, KonumSehir, KonumUlke, SubeAdi, SubeKodu, ParaBirimi, HesapSahibi, HesapNumarasi, IbanNumarasi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$HesapEklemeSorgusu		=	$Connection->prepare("INSERT INTO bankahesaplarimiz (BankaLogosu, BankaAdi, KonumSehir, KonumUlke, SubeAdi, SubeKodu, ParaBirimi, HesapSahibi, HesapNumarasi, IbanNumarasi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$HesapEklemeSorgusu->execute([$ResimIcinYeniDosyaAdi, $GelenBankaAdi, $GelenKonumSehir, $GelenKonumUlke, $GelenSubeAdi, $GelenSubeKodu, $GelenParaBirimi, $GelenHesapSahibi, $GelenHesapNumarasi, $GelenIbanNumarasi]);
 		$HesapEklemeKontrol		=	$HesapEklemeSorgusu->rowCount();
 		

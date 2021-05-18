@@ -17,7 +17,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 	
 	if(($GelenID!="") and ($GelenSoru!="") and ($GelenCevap!="")){	
-		$IcerikGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE sorular SET soru = ?, cevap = ? WHERE id = ? LIMIT 1");
+		$IcerikGuncellemeSorgusu	=	$Connection->prepare("UPDATE sorular SET soru = ?, cevap = ? WHERE id = ? LIMIT 1");
 		$IcerikGuncellemeSorgusu->execute([$GelenSoru, $GelenCevap, $GelenID]);
 		$IcerikGuncellemeKontrol	=	$IcerikGuncellemeSorgusu->rowCount();
 		

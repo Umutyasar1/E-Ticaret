@@ -37,7 +37,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 
 	if(($GelenHakkimizdaMetni!="") and ($GelenUyelikSozlesmesiMetni!="") and ($GelenKullanimKosullariMetni!="") and ($GelenGizlilikSozlesmesiMetni!="") and ($GelenMesafeliSatisSozlesmesiMetni!="") and ($GelenTeslimatMetni!="")){
-		$MetinleriGuncelle			=	$VeritabaniBaglantisi->prepare("UPDATE sozlesmelervemetinler SET HakkimizdaMetni = ?, UyelikSozlesmesiMetni = ?, KullanimKosullariMetni = ?, GizlilikSozlesmesiMetni = ?, MesafeliSatisSozlesmesiMetni = ?, TeslimatMetni = ?, IptalIadeDegisimMetni = ?");
+		$MetinleriGuncelle			=	$Connection->prepare("UPDATE sozlesmelervemetinler SET HakkimizdaMetni = ?, UyelikSozlesmesiMetni = ?, KullanimKosullariMetni = ?, GizlilikSozlesmesiMetni = ?, MesafeliSatisSozlesmesiMetni = ?, TeslimatMetni = ?, IptalIadeDegisimMetni = ?");
 		$MetinleriGuncelle->execute([$GelenHakkimizdaMetni, $GelenUyelikSozlesmesiMetni, $GelenKullanimKosullariMetni, $GelenGizlilikSozlesmesiMetni, $GelenMesafeliSatisSozlesmesiMetni, $GelenTeslimatMetni, $GelenIptalIadeDegisimMetni]);
 			
 		header("Location:index.php?SKD=0&SKI=7");

@@ -6,7 +6,7 @@ if(isset($_SESSION["Yonetici"])){
 		$GelenID			=	"";
 	}
 	
-	$KargolarSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
+	$KargolarSorgusu	=	$Connection->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
 	$KargolarSorgusu->execute([$GelenID]);
 	$KargolarSayisi		=	$KargolarSorgusu->rowCount();
 	$KargoBilgisi		=	$KargolarSorgusu->fetch(PDO::FETCH_ASSOC);

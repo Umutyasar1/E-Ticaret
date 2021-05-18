@@ -6,7 +6,7 @@ if(isset($_SESSION["Yonetici"])){
 		$GelenID			=	"";
 	}
 	
-	$MenulerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM menuler WHERE id = ? LIMIT 1");
+	$MenulerSorgusu	=	$Connection->prepare("SELECT * FROM menuler WHERE id = ? LIMIT 1");
 	$MenulerSorgusu->execute([$GelenID]);
 	$MenuSayisi		=	$MenulerSorgusu->rowCount();
 	$MenuBilgisi	=	$MenulerSorgusu->fetch(PDO::FETCH_ASSOC);

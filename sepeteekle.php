@@ -13,12 +13,12 @@ if(isset($_SESSION["Kullanici"])){
 	}
 	
 	if(($GelenID!="") and ($GelenVaryantID!="")){
-		$KullanicininSepetKontrolSorgu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC LIMIT 1");
+		$KullanicininSepetKontrolSorgu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC LIMIT 1");
 		$KullanicininSepetKontrolSorgu->execute([$KullaniciID]);
 		$KullanicininSepetSayisi		=	$KullanicininSepetKontrolSorgu->rowCount();
 
 		if($KullanicininSepetSayisi>0){
-			$UrunSepetKontrolSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? AND UrunId = ? AND VaryantId = ? LIMIT 1");
+			$UrunSepetKontrolSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? AND UrunId = ? AND VaryantId = ? LIMIT 1");
 			$UrunSepetKontrolSorgusu->execute([$KullaniciID, $GelenID, $GelenVaryantID]);
 			$UrunSepetSayisi			=	$UrunSepetKontrolSorgusu->rowCount();
 			$UrunSepetKaydi				=	$UrunSepetKontrolSorgusu->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +28,7 @@ if(isset($_SESSION["Kullanici"])){
 				$UrununSepettekiMevcutAdedi		=	$UrunSepetKaydi["UrunAdedi"];
 				$UrununYeniAdedi				=	$UrununSepettekiMevcutAdedi+1;
 
-				$UrunGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET UrunAdedi = ? WHERE id = ? AND UyeId = ? AND UrunId = ? LIMIT 1");
+				$UrunGuncellemeSorgusu	=	$Connection->prepare("UPDATE sepet SET UrunAdedi = ? WHERE id = ? AND UyeId = ? AND UrunId = ? LIMIT 1");
 				$UrunGuncellemeSorgusu->execute([$UrununYeniAdedi, $UrununIDsi, $KullaniciID, $GelenID]);
 				$UrunGuncellemeSayisi		=	$UrunGuncellemeSorgusu->rowCount();
 
@@ -40,13 +40,13 @@ if(isset($_SESSION["Kullanici"])){
 						exit();
 					}
 			}else{
-				$UrunEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO sepet (UyeId, UrunId, VaryantId, UrunAdedi) values (?, ?, ?, ?)");
+				$UrunEklemeSorgusu		=	$Connection->prepare("INSERT INTO sepet (UyeId, UrunId, VaryantId, UrunAdedi) values (?, ?, ?, ?)");
 				$UrunEklemeSorgusu->execute([$KullaniciID, $GelenID, $GelenVaryantID, 1]);
 				$UrunEklemeSayisi		=	$UrunEklemeSorgusu->rowCount();
-				$SonIdDegeri			=	$VeritabaniBaglantisi->lastInsertId();
+				$SonIdDegeri			=	$Connection->lastInsertId();
 
 					if($UrunEklemeSayisi>0){
-						$SiparisNumarasiniGuncelleSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET SepetNumarasi = ? WHERE UyeId = ?");
+						$SiparisNumarasiniGuncelleSorgusu		=	$Connection->prepare("UPDATE sepet SET SepetNumarasi = ? WHERE UyeId = ?");
 						$SiparisNumarasiniGuncelleSorgusu->execute([$SonIdDegeri, $KullaniciID]);
 						$SiparisNumarasiniGuncelleSayisi		=	$SiparisNumarasiniGuncelleSorgusu->rowCount();
 							if($SiparisNumarasiniGuncelleSayisi>0){
@@ -62,13 +62,13 @@ if(isset($_SESSION["Kullanici"])){
 					}
 			}
 		}else{
-			$UrunEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO sepet (UyeId, UrunId, VaryantId, UrunAdedi) values (?, ?, ?, ?)");
+			$UrunEklemeSorgusu		=	$Connection->prepare("INSERT INTO sepet (UyeId, UrunId, VaryantId, UrunAdedi) values (?, ?, ?, ?)");
 			$UrunEklemeSorgusu->execute([$KullaniciID, $GelenID, $GelenVaryantID, 1]);
 			$UrunEklemeSayisi		=	$UrunEklemeSorgusu->rowCount();
-			$SonIdDegeri			=	$VeritabaniBaglantisi->lastInsertId();
+			$SonIdDegeri			=	$Connection->lastInsertId();
 
 				if($UrunEklemeSayisi>0){
-					$SiparisNumarasiniGuncelleSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET SepetNumarasi = ? WHERE UyeId = ?");
+					$SiparisNumarasiniGuncelleSorgusu		=	$Connection->prepare("UPDATE sepet SET SepetNumarasi = ? WHERE UyeId = ?");
 					$SiparisNumarasiniGuncelleSorgusu->execute([$SonIdDegeri, $KullaniciID]);
 					$SiparisNumarasiniGuncelleSayisi		=	$SiparisNumarasiniGuncelleSorgusu->rowCount();
 						if($SiparisNumarasiniGuncelleSayisi>0){

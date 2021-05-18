@@ -10,7 +10,7 @@ if(isset($_SESSION["Yonetici"])){
 		<td colspan="2" style="font-size: 10px;">&nbsp;</td>
 	</tr>
 	<?php
-	$MenulerSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM menuler ORDER BY UrunTuru ASC");
+	$MenulerSorgusu		=	$Connection->prepare("SELECT * FROM menuler ORDER BY UrunTuru ASC");
 	$MenulerSorgusu->execute();
 	$MenulerSayisi		=	$MenulerSorgusu->rowCount();
 	$MenulerKayitlari	=	$MenulerSorgusu->fetchAll(PDO::FETCH_ASSOC);

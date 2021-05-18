@@ -10,7 +10,7 @@ if(isset($_SESSION["Yonetici"])){
 		<td colspan="2" style="font-size: 10px;">&nbsp;</td>
 	</tr>
 	<?php
-	$DestekSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM sorular ORDER BY soru ASC");
+	$DestekSorgusu		=	$Connection->prepare("SELECT * FROM sorular ORDER BY soru ASC");
 	$DestekSorgusu->execute();
 	$DestekSayisi		=	$DestekSorgusu->rowCount();
 	$DestekKayitlari	=	$DestekSorgusu->fetchAll(PDO::FETCH_ASSOC);

@@ -1,54 +1,54 @@
 <?php
 if(isset($_SESSION["Yonetici"])){
-	$BekleyenSiparislerSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE OnayDurumu = ? AND KargoDurumu = ?");
+	$BekleyenSiparislerSorgusu		=	$Connection->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE OnayDurumu = ? AND KargoDurumu = ?");
 	$BekleyenSiparislerSorgusu->execute([0, 0]);
 	$BekleyenSiparislerSayisi		=	$BekleyenSiparislerSorgusu->rowCount();
 	
-	$TamamlananSiparislerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE OnayDurumu = ? AND KargoDurumu = ?");
+	$TamamlananSiparislerSorgusu	=	$Connection->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler WHERE OnayDurumu = ? AND KargoDurumu = ?");
 	$TamamlananSiparislerSorgusu->execute([1, 1]);
 	$TamamlananSiparislerSayisi		=	$TamamlananSiparislerSorgusu->rowCount();
 	
-	$TumSiparislerSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler");
+	$TumSiparislerSorgusu			=	$Connection->prepare("SELECT DISTINCT SiparisNumarasi FROM siparisler");
 	$TumSiparislerSorgusu->execute();
 	$TumSiparislerSayisi			=	$TumSiparislerSorgusu->rowCount();
 	
-	$HavaleBildirimSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM havalebildirimleri");
+	$HavaleBildirimSorgusu			=	$Connection->prepare("SELECT * FROM havalebildirimleri");
 	$HavaleBildirimSorgusu->execute();
 	$HavaleBildirimSayisi			=	$HavaleBildirimSorgusu->rowCount();
 	
-	$BankalarSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM bankahesaplarimiz");
+	$BankalarSorgusu				=	$Connection->prepare("SELECT * FROM bankahesaplarimiz");
 	$BankalarSorgusu->execute();
 	$BankalarSayisi					=	$BankalarSorgusu->rowCount();
 	
-	$MenulerSorgusu					=	$VeritabaniBaglantisi->prepare("SELECT * FROM menuler");
+	$MenulerSorgusu					=	$Connection->prepare("SELECT * FROM menuler");
 	$MenulerSorgusu->execute();
 	$MenulerSayisi					=	$MenulerSorgusu->rowCount();
 	
-	$UrunlerSorgusu					=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler");
+	$UrunlerSorgusu					=	$Connection->prepare("SELECT * FROM urunler");
 	$UrunlerSorgusu->execute();
 	$UrunlerSayisi					=	$UrunlerSorgusu->rowCount();
 	
-	$UyelerSorgusu					=	$VeritabaniBaglantisi->prepare("SELECT * FROM uyeler");
+	$UyelerSorgusu					=	$Connection->prepare("SELECT * FROM uyeler");
 	$UyelerSorgusu->execute();
 	$UyelerSayisi					=	$UyelerSorgusu->rowCount();
 	
-	$YoneticilerSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM yoneticiler");
+	$YoneticilerSorgusu				=	$Connection->prepare("SELECT * FROM yoneticiler");
 	$YoneticilerSorgusu->execute();
 	$YoneticilerSayisi				=	$YoneticilerSorgusu->rowCount();
 	
-	$KargolarSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari");
+	$KargolarSorgusu				=	$Connection->prepare("SELECT * FROM kargofirmalari");
 	$KargolarSorgusu->execute();
 	$KargolarSayisi					=	$KargolarSorgusu->rowCount();
 	
-	$BannerlarSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM bannerlar");
+	$BannerlarSorgusu				=	$Connection->prepare("SELECT * FROM bannerlar");
 	$BannerlarSorgusu->execute();
 	$BannerlarSayisi				=	$BannerlarSorgusu->rowCount();
 	
-	$YorumlarSorgusu				=	$VeritabaniBaglantisi->prepare("SELECT * FROM yorumlar");
+	$YorumlarSorgusu				=	$Connection->prepare("SELECT * FROM yorumlar");
 	$YorumlarSorgusu->execute();
 	$YorumlarSayisi					=	$YorumlarSorgusu->rowCount();
 	
-	$SorularSorgusu					=	$VeritabaniBaglantisi->prepare("SELECT * FROM sorular");
+	$SorularSorgusu					=	$Connection->prepare("SELECT * FROM sorular");
 	$SorularSorgusu->execute();
 	$SorularSayisi					=	$SorularSorgusu->rowCount();
 ?>

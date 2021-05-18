@@ -1,6 +1,6 @@
 <?php
 if(isset($_SESSION["Kullanici"])){
-	$SepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
+	$SepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
 	$SepettekiUrunlerSorgusu->execute([$KullaniciID]);
 	$SepettekiUrunSayisi		=	$SepettekiUrunlerSorgusu->rowCount();
 	$SepettiKayitlar			=	$SepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -18,7 +18,7 @@ if(isset($_SESSION["Kullanici"])){
 			$SepettekiUrununVaryantIdsi		=	$SepetSatirlari["VaryantId"];
 			$SepettekiUrununAdedi			=	$SepetSatirlari["UrunAdedi"];
 
-			$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+			$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 			$UrunBilgileriSorgusu->execute([$SepettekiUrununIdsi]);
 			$UrunKaydi						=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 				$UrununFiyati			=	$UrunKaydi["UrunFiyati"];
@@ -59,8 +59,8 @@ if(isset($_SESSION["Kullanici"])){
 		$clientId		=	DonusumleriGeriDondur($ClientID);	//	Bankadan Sanal Pos Onaylanınca Bankanın Verdiği İşyeri Numarası
 		$amount			=	$OdenecekToplamTutariHesapla;	//	Sepet Ücreti yada İşlem Tutarı yada Karttan Çekilecek Tutar
 		$oid			=	$SepettekiSepetNumarasi;	//	Sipariş Numarası (Tekrarlanmayan Bir Değer) (Örneğin Sepet Tablosundaki IDyi Kullanabilirsiniz) (Her İşlemde Değişmeli ve Asla Tekrarlanmamalı)
-		$okUrl			=	"http://www.extraegitim.net/alisverissepetikredikartiodemesonuctamam.php";	//	Ödeme İşlemi Başarıyla Gerçekleşir ise Dönülecek Sayfa
-		$failUrl		=	"http://www.extraegitim.net/alisverissepetikredikartiodemesonuchata.php";	//	Ödeme İşlemi Red Olur ise Dönülecek Sayfa
+		$okUrl			=	"http://www.UmutMagazam.net/alisverissepetikredikartiodemesonuctamam.php";	//	Ödeme İşlemi Başarıyla Gerçekleşir ise Dönülecek Sayfa
+		$failUrl		=	"http://www.UmutMagazam.net/alisverissepetikredikartiodemesonuchata.php";	//	Ödeme İşlemi Red Olur ise Dönülecek Sayfa
 		$rnd			=	@microtime();
 		$storekey		=	DonusumleriGeriDondur($StoreKey);	// Sanal Pos Onaylandığında Bankanın Size Verdiği Sanal Pos Ekranına Girerek Oluşturulacak Olan İş Yeri Anahtarı
 		$storetype		=	"3d";	//	3D Modeli

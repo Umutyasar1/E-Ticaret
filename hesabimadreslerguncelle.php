@@ -7,7 +7,7 @@ if(isset($_SESSION["Kullanici"])){
 	}
 	
 	if($GelenID!=""){
-		$AdresSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM adresler WHERE id = ? AND UyeId = ? LIMIT 1");
+		$AdresSorgusu		=	$Connection->prepare("SELECT * FROM adresler WHERE id = ? AND UyeId = ? LIMIT 1");
 		$AdresSorgusu->execute([$GelenID, $KullaniciID]);
 		$AdresSayisi		=	$AdresSorgusu->rowCount();
 		$KayitBilgisi		=	$AdresSorgusu->fetch(PDO::FETCH_ASSOC);

@@ -7,7 +7,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 
 	if($GelenID!=""){
-		$HavaleBildirimleriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM havalebildirimleri WHERE BankaId = ?");
+		$HavaleBildirimleriSorgusu	=	$Connection->prepare("SELECT * FROM havalebildirimleri WHERE BankaId = ?");
 		$HavaleBildirimleriSorgusu->execute([$GelenID]);
 		$BildirimSayisi				=	$HavaleBildirimleriSorgusu->rowCount();
 		
@@ -15,14 +15,14 @@ if(isset($_SESSION["Yonetici"])){
 			header("Location:index.php?SKD=0&SKI=20");
 			exit();
 		}else{
-			$HesapSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ?");
+			$HesapSorgusu	=	$Connection->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ?");
 			$HesapSorgusu->execute([$GelenID]);
 			$HesapSayisi	=	$HesapSorgusu->rowCount();
 			$HesapKaydi		=	$HesapSorgusu->fetch(PDO::FETCH_ASSOC);
 
 			$SilinecekDosyaYolu		=	"../Resimler/".$HesapKaydi["BankaLogosu"];
 
-			$HesapSilmeSorgusu	=	$VeritabaniBaglantisi->prepare("DELETE FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
+			$HesapSilmeSorgusu	=	$Connection->prepare("DELETE FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
 			$HesapSilmeSorgusu->execute([$GelenID]);
 			$HesapSilmeKontrol	=	$HesapSilmeSorgusu->rowCount();
 

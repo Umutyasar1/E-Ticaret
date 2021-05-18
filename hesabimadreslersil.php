@@ -7,7 +7,7 @@ if(isset($_SESSION["Kullanici"])){
 	}
 
 	if($GelenID!=""){
-		$AdresSilmeSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM adresler WHERE id = ? LIMIT 1");
+		$AdresSilmeSorgusu		=	$Connection->prepare("DELETE FROM adresler WHERE id = ? LIMIT 1");
 		$AdresSilmeSorgusu->execute([$GelenID]);
 		$AdresSilmeSayisi		=	$AdresSilmeSorgusu->rowCount();
 

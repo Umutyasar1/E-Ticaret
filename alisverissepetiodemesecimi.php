@@ -11,11 +11,11 @@ if(isset($_SESSION["Kullanici"])){
 		$GelenKargoSecimi		=	"";
 	}
 	if(($GelenAdresSecimi!="") and ($GelenKargoSecimi!="")){
-		$SepettiGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET KargoId = ?, AdresId = ? WHERE UyeId = ?");
+		$SepettiGuncellemeSorgusu	=	$Connection->prepare("UPDATE sepet SET KargoId = ?, AdresId = ? WHERE UyeId = ?");
 		$SepettiGuncellemeSorgusu->execute([$GelenKargoSecimi, $GelenAdresSecimi, $KullaniciID]);
 		$GuncellemeKontrol			=	$SepettiGuncellemeSorgusu->rowCount();
 			
-		$StokIcinSepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ?");
+		$StokIcinSepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ?");
 		$StokIcinSepettekiUrunlerSorgusu->execute([$KullaniciID]);
 		$StokIcinSepettekiUrunSayisi		=	$StokIcinSepettekiUrunlerSorgusu->rowCount();
 		$StokIcinSepettiKayitlar			=	$StokIcinSepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -26,22 +26,22 @@ if(isset($_SESSION["Kullanici"])){
 				$StokIcinSepettekiUrununVaryantIdsi		=	$StokIcinSepettekiSatirlar["VaryantId"];
 				$StokIcinSepettekiUrununAdedi			=	$StokIcinSepettekiSatirlar["UrunAdedi"];
 
-				$StokIcinUrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+				$StokIcinUrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 				$StokIcinUrunVaryantBilgileriSorgusu->execute([$StokIcinSepettekiUrununVaryantIdsi]);
 				$StokIcinVaryantKaydi					=	$StokIcinUrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 					$StokIcinUrununStokAdedi	=	$StokIcinVaryantKaydi["StokAdedi"];
 
 				if($StokIcinUrununStokAdedi==0){
-					$SepetSilSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
+					$SepetSilSorgusu		=	$Connection->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
 					$SepetSilSorgusu->execute([$StokIcinSepetIdsi, $KullaniciID]);
 				}elseif($StokIcinSepettekiUrununAdedi>$StokIcinUrununStokAdedi){
-					$SepetGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
+					$SepetGuncellemeSorgusu		=	$Connection->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
 					$SepetGuncellemeSorgusu->execute([$StokIcinUrununStokAdedi, $StokIcinSepetIdsi, $KullaniciID]);
 				}
 			}
 		}
 
-		$SepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
+		$SepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
 		$SepettekiUrunlerSorgusu->execute([$KullaniciID]);
 		$SepettekiUrunSayisi		=	$SepettekiUrunlerSorgusu->rowCount();
 		$SepettiKayitlar			=	$SepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -58,7 +58,7 @@ if(isset($_SESSION["Kullanici"])){
 				$SepettekiUrununVaryantIdsi		=	$SepetSatirlari["VaryantId"];
 				$SepettekiUrununAdedi			=	$SepetSatirlari["UrunAdedi"];
 
-				$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+				$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 				$UrunBilgileriSorgusu->execute([$SepettekiUrununIdsi]);
 				$UrunKaydi						=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 					$UrununFiyati			=	$UrunKaydi["UrunFiyati"];

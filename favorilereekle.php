@@ -8,7 +8,7 @@ if(isset($_SESSION["Kullanici"])){
 	
 	if($GelenID!=""){
 	
-		$FavoriKontrolSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM favoriler WHERE UrunId = ? AND UyeId = ? LIMIT 1");
+		$FavoriKontrolSorgusu	=	$Connection->prepare("SELECT * FROM favoriler WHERE UrunId = ? AND UyeId = ? LIMIT 1");
 		$FavoriKontrolSorgusu->execute([$GelenID, $KullaniciID]);
 		$FavoriKontrolSayisi		=	$FavoriKontrolSorgusu->rowCount();
 		
@@ -16,7 +16,7 @@ if(isset($_SESSION["Kullanici"])){
 			header("Location:index.php?SK=90");
 			exit();
 		}else{
-			$FavoriEklemeSorgusu	=	$VeritabaniBaglantisi->prepare("INSERT INTO favoriler (UrunId, UyeId) values (?, ?)");
+			$FavoriEklemeSorgusu	=	$Connection->prepare("INSERT INTO favoriler (UrunId, UyeId) values (?, ?)");
 			$FavoriEklemeSorgusu->execute([$GelenID, $KullaniciID]);
 			$FavoriEklemeSayisi		=	$FavoriEklemeSorgusu->rowCount();
 

@@ -7,7 +7,7 @@ if(isset($_SESSION["Kullanici"])){
 	}
 
 	if($GelenID!=""){
-		$FavoriSilmeSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM favoriler WHERE id = ? AND UyeId = ? LIMIT 1");
+		$FavoriSilmeSorgusu		=	$Connection->prepare("DELETE FROM favoriler WHERE id = ? AND UyeId = ? LIMIT 1");
 		$FavoriSilmeSorgusu->execute([$GelenID, $KullaniciID]);
 		$FavoriSilmeSayisi		=	$FavoriSilmeSorgusu->rowCount();
 

@@ -12,7 +12,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 	
 	if(($GelenSoru!="") and ($GelenCevap!="")){	
-		$IcerikEklemeSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO sorular (soru, cevap) values (?, ?)");
+		$IcerikEklemeSorgusu		=	$Connection->prepare("INSERT INTO sorular (soru, cevap) values (?, ?)");
 		$IcerikEklemeSorgusu->execute([$GelenSoru, $GelenCevap]);
 		$IcerikEklemeKontrol		=	$IcerikEklemeSorgusu->rowCount();
 

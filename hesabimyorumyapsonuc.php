@@ -17,12 +17,12 @@ if(isset($_SESSION["Kullanici"])){
 	}
 
 	if(($GelenUrunID!="") and ($GelenPuan!="") and ($GelenYorum!="")){
-		$YorumKayitSorgusu		=	$VeritabaniBaglantisi->prepare("INSERT INTO yorumlar (UrunId, UyeId, Puan, YorumMetni, YorumTarihi, YorumIpAdresi) values (?, ?, ?, ?, ?, ?)");
+		$YorumKayitSorgusu		=	$Connection->prepare("INSERT INTO yorumlar (UrunId, UyeId, Puan, YorumMetni, YorumTarihi, YorumIpAdresi) values (?, ?, ?, ?, ?, ?)");
 		$YorumKayitSorgusu->execute([$GelenUrunID, $KullaniciID, $GelenPuan, $GelenYorum, $ZamanDamgasi, $IPAdresi]);
 		$YorumKayitKontrol		=	$YorumKayitSorgusu->rowCount();
 		
 		if($YorumKayitKontrol>0){
-			$UrunGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE urunler SET YorumSayisi=YorumSayisi+1, ToplamYorumPuani=ToplamYorumPuani+? WHERE id = ? LIMIT 1");
+			$UrunGuncellemeSorgusu		=	$Connection->prepare("UPDATE urunler SET YorumSayisi=YorumSayisi+1, ToplamYorumPuani=ToplamYorumPuani+? WHERE id = ? LIMIT 1");
 			$UrunGuncellemeSorgusu->execute([$GelenPuan, $GelenUrunID]);
 			$UrunGuncellemeKontrol		=	$UrunGuncellemeSorgusu->rowCount();
 			

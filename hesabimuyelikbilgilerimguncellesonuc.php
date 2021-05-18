@@ -45,7 +45,7 @@ if(isset($_SESSION["Kullanici"])){
 			}
 	
 			if($EmailAdresi != $GelenEmailAdresi){
-				$KontrolSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM uyeler WHERE EmailAdresi = ?");
+				$KontrolSorgusu		=	$Connection->prepare("SELECT * FROM uyeler WHERE EmailAdresi = ?");
 				$KontrolSorgusu->execute([$GelenEmailAdresi]);
 				$KullaniciSayisi	=	$KontrolSorgusu->rowCount();
 
@@ -56,10 +56,10 @@ if(isset($_SESSION["Kullanici"])){
 			}
 	
 			if($SifreDegistirmeDurumu == 1){
-				$KullaniciGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE uyeler SET EmailAdresi = ?, Sifre = ?, IsimSoyisim = ?, TelefonNumarasi = ?, Cinsiyet = ? WHERE id = ? LIMIT 1");
+				$KullaniciGuncellemeSorgusu		=	$Connection->prepare("UPDATE uyeler SET EmailAdresi = ?, Sifre = ?, IsimSoyisim = ?, TelefonNumarasi = ?, Cinsiyet = ? WHERE id = ? LIMIT 1");
 				$KullaniciGuncellemeSorgusu->execute([$GelenEmailAdresi, $MD5liSifre, $GelenIsimSoyisim, $GelenTelefonNumarasi, $GelenCinsiyet, $KullaniciID]);
 			}else{
-				$KullaniciGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE uyeler SET EmailAdresi = ?, IsimSoyisim = ?, TelefonNumarasi = ?, Cinsiyet = ? WHERE id = ? LIMIT 1");
+				$KullaniciGuncellemeSorgusu		=	$Connection->prepare("UPDATE uyeler SET EmailAdresi = ?, IsimSoyisim = ?, TelefonNumarasi = ?, Cinsiyet = ? WHERE id = ? LIMIT 1");
 				$KullaniciGuncellemeSorgusu->execute([$GelenEmailAdresi, $GelenIsimSoyisim, $GelenTelefonNumarasi, $GelenCinsiyet, $KullaniciID]);
 			}
 			

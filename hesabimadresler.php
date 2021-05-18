@@ -37,7 +37,7 @@ if(isset($_SESSION["Kullanici"])){
 					<td colspan="4" style="background: #f8ffa7; color: black; font-weight: bold;" align="right"><a href="index.php?SK=70" style="text-decoration: none; color: #000000;">+ Yeni Adres Ekle</a>&nbsp;</td>
 				</tr>
 				<?php
-				$AdreslerSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM adresler WHERE UyeId = ?");
+				$AdreslerSorgusu		=	$Connection->prepare("SELECT * FROM adresler WHERE UyeId = ?");
 				$AdreslerSorgusu->execute([$KullaniciID]);
 				$AdreslerSayisi			=	$AdreslerSorgusu->rowCount();
 				$AdreslerKayitlari		=	$AdreslerSorgusu->fetchAll(PDO::FETCH_ASSOC);

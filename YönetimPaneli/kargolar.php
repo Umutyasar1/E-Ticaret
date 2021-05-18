@@ -10,7 +10,7 @@ if(isset($_SESSION["Yonetici"])){
 		<td colspan="2" style="font-size: 10px;">&nbsp;</td>
 	</tr>
 	<?php
-	$KargolarSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari ORDER BY KargoFirmasiAdi ASC");
+	$KargolarSorgusu		=	$Connection->prepare("SELECT * FROM kargofirmalari ORDER BY KargoFirmasiAdi ASC");
 	$KargolarSorgusu->execute();
 	$KargolarSayisi			=	$KargolarSorgusu->rowCount();
 	$KargolarKayitlari		=	$KargolarSorgusu->fetchAll(PDO::FETCH_ASSOC);

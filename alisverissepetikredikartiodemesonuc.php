@@ -6,7 +6,7 @@ require_once("Ayarlar/sitesayfalari.php");
 
 $oid					=	$_POST['oid'];
 
-$SepetinTaksitSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE SepetNumarasi = ? LIMIT 1");
+$SepetinTaksitSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE SepetNumarasi = ? LIMIT 1");
 $SepetinTaksitSorgusu->execute([$oid]);
 $TaksitKaydi			=	$SepetinTaksitSorgusu->fetch(PDO::FETCH_ASSOC);
 
@@ -125,7 +125,7 @@ if($mdStatus =="1" || $mdStatus == "2" || $mdStatus == "3" || $mdStatus == "4"){
 	$posf			=	$posf+@strlen($response_tag)+2;
 	$$TransId		=	@substr($result,$posf,$posl-$posf);
 		if($Response==="Approved"){
-			$AlisverisSepetiSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE SepetNumarasi = ?");
+			$AlisverisSepetiSorgusu		=	$Connection->prepare("SELECT * FROM sepet WHERE SepetNumarasi = ?");
 			$AlisverisSepetiSorgusu->execute([$oid]);
 			$SepetSayisi				=	$AlisverisSepetiSorgusu->rowCount();
 			$SepetUrunleri				=	$AlisverisSepetiSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -143,7 +143,7 @@ if($mdStatus =="1" || $mdStatus == "2" || $mdStatus == "3" || $mdStatus == "4"){
 					$SepettekiOdemeSecimi		=	$SepetSatirlari["OdemeSecimi"];
 					$SepettekiTaksitSecimi		=	$SepetSatirlari["TaksitSecimi"];
 
-					$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+					$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 					$UrunBilgileriSorgusu->execute([$SepettekiUrunId]);
 					$UrunKaydi					=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$UrununTuru				=	$UrunKaydi["UrunTuru"];
@@ -155,17 +155,17 @@ if($mdStatus =="1" || $mdStatus == "2" || $mdStatus == "3" || $mdStatus == "4"){
 						$UrununResmi			=	$UrunKaydi["UrunResmiBir"];
 						$UrununVaryantBasligi	=	$UrunKaydi["VaryantBasligi"];
 
-					$UrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+					$UrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 					$UrunVaryantBilgileriSorgusu->execute([$SepettekiVaryantId]);
 					$VaryantKaydi					=	$UrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$VaryantAdi			=	$VaryantKaydi["VaryantAdi"];
 
-					$KargoBilgileriSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
+					$KargoBilgileriSorgusu		=	$Connection->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
 					$KargoBilgileriSorgusu->execute([$SepettekiKargoId]);
 					$KargoKaydi					=	$KargoBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$KargonunAdi			=	$KargoKaydi["KargoFirmasiAdi"];
 
-					$AdresBilgileriSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM adresler WHERE id = ? LIMIT 1");
+					$AdresBilgileriSorgusu		=	$Connection->prepare("SELECT * FROM adresler WHERE id = ? LIMIT 1");
 					$AdresBilgileriSorgusu->execute([$SepettekiAdresId]);
 					$AdresKaydi					=	$AdresBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$AdresAdiSoyadi			=	$AdresKaydi["AdiSoyadi"];
@@ -186,29 +186,29 @@ if($mdStatus =="1" || $mdStatus == "2" || $mdStatus == "3" || $mdStatus == "4"){
 					$UrununToplamFiyati			=	($UrunFiyatiHesapla*$SepettekiUrunAdedi);
 					$UrununToplamKargoFiyati	=	($UrununKargoUcreti*$SepettekiUrunAdedi);
 
-					$SiparisEkle	=	$VeritabaniBaglantisi->prepare("INSERT INTO siparisler (UyeId, SiparisNumarasi, UrunId, UrunTuru, UrunAdi, UrunFiyati, KdvOrani, UrunAdedi, ToplamUrunFiyati, KargoFirmasiSecimi, KargoUcreti, UrunResmiBir, VaryantBasligi, VaryantSecimi, AdresAdiSoyadi, AdresDetay, AdresTelefon, OdemeSecimi, TaksitSecimi, SiparisTarihi, SiparisIpAdresi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					$SiparisEkle	=	$Connection->prepare("INSERT INTO siparisler (UyeId, SiparisNumarasi, UrunId, UrunTuru, UrunAdi, UrunFiyati, KdvOrani, UrunAdedi, ToplamUrunFiyati, KargoFirmasiSecimi, KargoUcreti, UrunResmiBir, VaryantBasligi, VaryantSecimi, AdresAdiSoyadi, AdresDetay, AdresTelefon, OdemeSecimi, TaksitSecimi, SiparisTarihi, SiparisIpAdresi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					$SiparisEkle->execute([$SepettekiUyeId, $SepetSepetNumarasi, $SepettekiUrunId, $UrununTuru, $UrununAdi, $UrunFiyatiHesapla, $UrununKdvOrani, $SepettekiUrunAdedi, $UrununToplamFiyati, $KargonunAdi, $UrununToplamKargoFiyati, $UrununResmi, $UrununVaryantBasligi, $VaryantAdi, $AdresAdiSoyadi, $AdresToparla, $AdresTelefonNumarasi, 'Kredi Kartı', $TaksitSayisi, $ZamanDamgasi, $IPAdresi]);
 					$EklemeKontrol	=	$SiparisEkle->rowCount();
 
 					if($EklemeKontrol>0){
-						$SepettenSilmeSorgusu	=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
+						$SepettenSilmeSorgusu	=	$Connection->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
 						$SepettenSilmeSorgusu->execute([$SepetIdsi, $SepettekiUyeId]);
 					}
 						
-					$UrunSatisiArttirmaSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE urunler SET ToplamSatisSayisi=ToplamSatisSayisi + ? WHERE id = ?");
+					$UrunSatisiArttirmaSorgusu	=	$Connection->prepare("UPDATE urunler SET ToplamSatisSayisi=ToplamSatisSayisi + ? WHERE id = ?");
 					$UrunSatisiArttirmaSorgusu->execute([$SepettekiUrunAdedi, $SepettekiUrunId]);	
 
-					$StokGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE urunvaryantlari SET StokAdedi=StokAdedi - ? WHERE id = ? LIMIT 1");
+					$StokGuncellemeSorgusu	=	$Connection->prepare("UPDATE urunvaryantlari SET StokAdedi=StokAdedi - ? WHERE id = ? LIMIT 1");
 					$StokGuncellemeSorgusu->execute([$SepettekiUrunAdedi, $SepettekiVaryantId]);	
 				}
 
-				$KargoFiyatiIcinSiparislerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT SUM(ToplamUrunFiyati) AS ToplamUcret FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ?");
+				$KargoFiyatiIcinSiparislerSorgusu	=	$Connection->prepare("SELECT SUM(ToplamUrunFiyati) AS ToplamUcret FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ?");
 				$KargoFiyatiIcinSiparislerSorgusu->execute([$SepettekiUyeId, $SepetSepetNumarasi]);
 				$KargoFiyatiKaydi					=	$KargoFiyatiIcinSiparislerSorgusu->fetch(PDO::FETCH_ASSOC);
 					$ToplamUcretimiz	=	$KargoFiyatiKaydi["ToplamUcret"];
 
 					if($ToplamUcretimiz>=$UcretsizKargoBaraji){
-						$SiparisiGuncelle	=	$VeritabaniBaglantisi->prepare("UPDATE siparisler SET KargoUcreti = ? WHERE UyeId = ? AND SiparisNumarasi = ?");
+						$SiparisiGuncelle	=	$Connection->prepare("UPDATE siparisler SET KargoUcreti = ? WHERE UyeId = ? AND SiparisNumarasi = ?");
 						$SiparisiGuncelle->execute([0, $SepettekiUyeId, $SepetSepetNumarasi]);
 					}
 			}	
@@ -219,7 +219,7 @@ if($mdStatus =="1" || $mdStatus == "2" || $mdStatus == "3" || $mdStatus == "4"){
 	echo "Kredi Kartı Bankası 3D Onayı Vermedi, Lütfen Bilgileriniz Kontrol Edip Tekrar Deneyiniz. Sorununuz Devam Eder İse Lütfen Kartınızın Sahibi Olan Bankanın Müşteri Temsilcileriyle İletişime Geçiniz.";
 }
 
-$VeritabaniBaglantisi	=	null;
+$Connection	=	null;
 ob_end_flush();
 
 ?>

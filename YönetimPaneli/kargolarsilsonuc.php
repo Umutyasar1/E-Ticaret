@@ -7,14 +7,14 @@ if(isset($_SESSION["Yonetici"])){
 	}
 
 	if($GelenID!=""){
-		$KargoSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari WHERE id = ?");
+		$KargoSorgusu	=	$Connection->prepare("SELECT * FROM kargofirmalari WHERE id = ?");
 		$KargoSorgusu->execute([$GelenID]);
 		$KargoSayisi	=	$KargoSorgusu->rowCount();
 		$KargoKaydi		=	$KargoSorgusu->fetch(PDO::FETCH_ASSOC);
 
 		$SilinecekDosyaYolu		=	"../Resimler/".$KargoKaydi["KargoFirmasiLogosu"];
 
-		$KargoSilmeSorgusu	=	$VeritabaniBaglantisi->prepare("DELETE FROM kargofirmalari WHERE id = ? LIMIT 1");
+		$KargoSilmeSorgusu	=	$Connection->prepare("DELETE FROM kargofirmalari WHERE id = ? LIMIT 1");
 		$KargoSilmeSorgusu->execute([$GelenID]);
 		$KargoSilmeKontrol	=	$KargoSilmeSorgusu->rowCount();
 

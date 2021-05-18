@@ -1,7 +1,7 @@
 <?php
 if(isset($_SESSION["Kullanici"])){
 
-$StokIcinSepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ?");
+$StokIcinSepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ?");
 $StokIcinSepettekiUrunlerSorgusu->execute([$KullaniciID]);
 $StokIcinSepettekiUrunSayisi		=	$StokIcinSepettekiUrunlerSorgusu->rowCount();
 $StokIcinSepettiKayitlar			=	$StokIcinSepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -12,22 +12,22 @@ if($StokIcinSepettekiUrunSayisi>0){
 		$StokIcinSepettekiUrununVaryantIdsi		=	$StokIcinSepettekiSatirlar["VaryantId"];
 		$StokIcinSepettekiUrununAdedi			=	$StokIcinSepettekiSatirlar["UrunAdedi"];
 		
-		$StokIcinUrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+		$StokIcinUrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 		$StokIcinUrunVaryantBilgileriSorgusu->execute([$StokIcinSepettekiUrununVaryantIdsi]);
 		$StokIcinVaryantKaydi					=	$StokIcinUrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 			$StokIcinUrununStokAdedi	=	$StokIcinVaryantKaydi["StokAdedi"];
 	
 		if($StokIcinUrununStokAdedi==0){
-			$SepetSilSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
+			$SepetSilSorgusu		=	$Connection->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
 			$SepetSilSorgusu->execute([$StokIcinSepetIdsi, $KullaniciID]);
 		}elseif($StokIcinSepettekiUrununAdedi>$StokIcinUrununStokAdedi){
-			$SepetGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
+			$SepetGuncellemeSorgusu		=	$Connection->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
 			$SepetGuncellemeSorgusu->execute([$StokIcinUrununStokAdedi, $StokIcinSepetIdsi, $KullaniciID]);
 		}
 	}
 }
 	
-$SepetSifirlamaSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET AdresId= ?, KargoId = ?, OdemeSecimi = ?, TaksitSecimi = ? WHERE UyeId = ?");
+$SepetSifirlamaSorgusu		=	$Connection->prepare("UPDATE sepet SET AdresId= ?, KargoId = ?, OdemeSecimi = ?, TaksitSecimi = ? WHERE UyeId = ?");
 $SepetSifirlamaSorgusu->execute([0, 0, "", 0, $KullaniciID]);
 ?>
 <table width="1065" align="center" border="0" cellpadding="0" cellspacing="0">
@@ -41,7 +41,7 @@ $SepetSifirlamaSorgusu->execute([0, 0, "", 0, $KullaniciID]);
 					<td valign="top" style="border-bottom: 1px dashed #CCCCCC;">Alışveriş Sepetine Eklemiş Olduğunuz Ürünler Aşağıdadır.</td>
 				</tr>
 				<?php
-				$SepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
+				$SepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
 				$SepettekiUrunlerSorgusu->execute([$KullaniciID]);
 				$SepettekiUrunSayisi		=	$SepettekiUrunlerSorgusu->rowCount();
 				$SepettiKayitlar			=	$SepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ $SepetSifirlamaSorgusu->execute([0, 0, "", 0, $KullaniciID]);
 						$SepettekiUrununVaryantIdsi		=	$SepetSatirlari["VaryantId"];
 						$SepettekiUrununAdedi			=	$SepetSatirlari["UrunAdedi"];
 						
-						$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+						$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 						$UrunBilgileriSorgusu->execute([$SepettekiUrununIdsi]);
 						$UrunKaydi						=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 							$UrununTuru				=	$UrunKaydi["UrunTuru"];
@@ -66,7 +66,7 @@ $SepetSifirlamaSorgusu->execute([0, 0, "", 0, $KullaniciID]);
 							$UrununParaBirimi		=	$UrunKaydi["ParaBirimi"];
 							$UrununVaryantBasligi	=	$UrunKaydi["VaryantBasligi"];
 						
-						$UrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+						$UrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 						$UrunVaryantBilgileriSorgusu->execute([$SepettekiUrununVaryantIdsi]);
 						$VaryantKaydi					=	$UrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						

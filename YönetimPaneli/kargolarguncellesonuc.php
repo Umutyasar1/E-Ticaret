@@ -13,12 +13,12 @@ if(isset($_SESSION["Yonetici"])){
 	}
 	
 	if(($GelenID!="") and ($GelenKargoFirmasiAdi!="")){
-		$KargoGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE kargofirmalari SET KargoFirmasiAdi = ? WHERE id = ? LIMIT 1");
+		$KargoGuncellemeSorgusu		=	$Connection->prepare("UPDATE kargofirmalari SET KargoFirmasiAdi = ? WHERE id = ? LIMIT 1");
 		$KargoGuncellemeSorgusu->execute([$GelenKargoFirmasiAdi, $GelenID]);
 		$KargoGuncellemeKontrol		=	$KargoGuncellemeSorgusu->rowCount();
 	
 		if(($GelenKargoFirmasiLogosu["name"]!="") and ($GelenKargoFirmasiLogosu["type"]!="") and ($GelenKargoFirmasiLogosu["tmp_name"]!="") and ($GelenKargoFirmasiLogosu["error"]==0) and ($GelenKargoFirmasiLogosu["size"]>0)){
-			$KargoResmiSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
+			$KargoResmiSorgusu		=	$Connection->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
 			$KargoResmiSorgusu->execute([$GelenID]);
 			$ResimKontrol			=	$KargoResmiSorgusu->rowCount();
 			$ResimBilgisi			=	$KargoResmiSorgusu->fetch(PDO::FETCH_ASSOC);
@@ -50,7 +50,7 @@ if(isset($_SESSION["Yonetici"])){
 					
 
 					if($KargoLogosuYukle->processed){
-						$KargoResmiGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE kargofirmalari SET KargoFirmasiLogosu = ? WHERE id = ? LIMIT 1");
+						$KargoResmiGuncellemeSorgusu	=	$Connection->prepare("UPDATE kargofirmalari SET KargoFirmasiLogosu = ? WHERE id = ? LIMIT 1");
 						$KargoResmiGuncellemeSorgusu->execute([$ResimIcinYeniDosyaAdi, $GelenID]);
 						$KargoResmiGuncellemeKontrol	=	$KargoResmiGuncellemeSorgusu->rowCount();
 						

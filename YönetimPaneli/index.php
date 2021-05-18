@@ -62,6 +62,6 @@ if(isset($_REQUEST["SYF"])){
 </body>
 </html>
 <?php
-$VeritabaniBaglantisi	=	null;
+$Connection	=	null;
 ob_end_flush();
 ?>

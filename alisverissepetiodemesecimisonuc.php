@@ -13,7 +13,7 @@ if(isset($_SESSION["Kullanici"])){
 
 	if($GelenOdemeTuruSecimi!=""){
 		if($GelenOdemeTuruSecimi=="Banka Havalesi"){
-			$AlisverisSepetiSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ?");
+			$AlisverisSepetiSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ?");
 			$AlisverisSepetiSorgusu->execute([$KullaniciID]);
 			$SepetSayisi				=	$AlisverisSepetiSorgusu->rowCount();
 			$SepetUrunleri				=	$AlisverisSepetiSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +32,7 @@ if(isset($_SESSION["Kullanici"])){
 					$SepettekiTaksitSecimi		=	$SepetSatirlari["TaksitSecimi"];
 					
 					
-					$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+					$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 					$UrunBilgileriSorgusu->execute([$SepettekiUrunId]);
 					$UrunKaydi					=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$UrununTuru				=	$UrunKaydi["UrunTuru"];
@@ -44,17 +44,17 @@ if(isset($_SESSION["Kullanici"])){
 						$UrununResmi			=	$UrunKaydi["UrunResmiBir"];
 						$UrununVaryantBasligi	=	$UrunKaydi["VaryantBasligi"];
 
-					$UrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+					$UrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 					$UrunVaryantBilgileriSorgusu->execute([$SepettekiVaryantId]);
 					$VaryantKaydi					=	$UrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$VaryantAdi			=	$VaryantKaydi["VaryantAdi"];
 
-					$KargoBilgileriSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
+					$KargoBilgileriSorgusu		=	$Connection->prepare("SELECT * FROM kargofirmalari WHERE id = ? LIMIT 1");
 					$KargoBilgileriSorgusu->execute([$SepettekiKargoId]);
 					$KargoKaydi					=	$KargoBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$KargonunAdi			=	$KargoKaydi["KargoFirmasiAdi"];
 					
-					$AdresBilgileriSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM adresler WHERE id = ? LIMIT 1");
+					$AdresBilgileriSorgusu		=	$Connection->prepare("SELECT * FROM adresler WHERE id = ? LIMIT 1");
 					$AdresBilgileriSorgusu->execute([$SepettekiAdresId]);
 					$AdresKaydi					=	$AdresBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 						$AdresAdiSoyadi			=	$AdresKaydi["AdiSoyadi"];
@@ -75,18 +75,18 @@ if(isset($_SESSION["Kullanici"])){
 					$UrununToplamFiyati			=	($UrunFiyatiHesapla*$SepettekiUrunAdedi);
 					$UrununToplamKargoFiyati	=	($UrununKargoUcreti*$SepettekiUrunAdedi);
 					
-					$SiparisEkle	=	$VeritabaniBaglantisi->prepare("INSERT INTO siparisler (UyeId, SiparisNumarasi, UrunId, UrunTuru, UrunAdi, UrunFiyati, KdvOrani, UrunAdedi, ToplamUrunFiyati, KargoFirmasiSecimi, KargoUcreti, UrunResmiBir, VaryantBasligi, VaryantSecimi, AdresAdiSoyadi, AdresDetay, AdresTelefon, OdemeSecimi, TaksitSecimi, SiparisTarihi, SiparisIpAdresi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					$SiparisEkle	=	$Connection->prepare("INSERT INTO siparisler (UyeId, SiparisNumarasi, UrunId, UrunTuru, UrunAdi, UrunFiyati, KdvOrani, UrunAdedi, ToplamUrunFiyati, KargoFirmasiSecimi, KargoUcreti, UrunResmiBir, VaryantBasligi, VaryantSecimi, AdresAdiSoyadi, AdresDetay, AdresTelefon, OdemeSecimi, TaksitSecimi, SiparisTarihi, SiparisIpAdresi) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					$SiparisEkle->execute([$SepettekiUyeId, $SepetSepetNumarasi, $SepettekiUrunId, $UrununTuru, $UrununAdi, $UrunFiyatiHesapla, $UrununKdvOrani, $SepettekiUrunAdedi, $UrununToplamFiyati, $KargonunAdi, $UrununToplamKargoFiyati, $UrununResmi, $UrununVaryantBasligi, $VaryantAdi, $AdresAdiSoyadi, $AdresToparla, $AdresTelefonNumarasi, $GelenOdemeTuruSecimi, 0, $ZamanDamgasi, $IPAdresi]);
 					$EklemeKontrol	=	$SiparisEkle->rowCount();
 					
 					if($EklemeKontrol>0){
-						$SepettenSilmeSorgusu	=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
+						$SepettenSilmeSorgusu	=	$Connection->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
 						$SepettenSilmeSorgusu->execute([$SepetIdsi, $SepettekiUyeId]);
 						
-						$UrunSatisiArttirmaSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE urunler SET ToplamSatisSayisi=ToplamSatisSayisi + ? WHERE id = ?");
+						$UrunSatisiArttirmaSorgusu	=	$Connection->prepare("UPDATE urunler SET ToplamSatisSayisi=ToplamSatisSayisi + ? WHERE id = ?");
 						$UrunSatisiArttirmaSorgusu->execute([$SepettekiUrunAdedi, $SepettekiUrunId]);	
 						
-						$StokGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE urunvaryantlari SET StokAdedi=StokAdedi - ? WHERE id = ? LIMIT 1");
+						$StokGuncellemeSorgusu	=	$Connection->prepare("UPDATE urunvaryantlari SET StokAdedi=StokAdedi - ? WHERE id = ? LIMIT 1");
 						$StokGuncellemeSorgusu->execute([$SepettekiUrunAdedi, $SepettekiVaryantId]);	
 					}else{
 						header("Location:index.php?SK=102");
@@ -94,13 +94,13 @@ if(isset($_SESSION["Kullanici"])){
 					}
 				}
 				
-				$KargoFiyatiIcinSiparislerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT SUM(ToplamUrunFiyati) AS ToplamUcret FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ?");
+				$KargoFiyatiIcinSiparislerSorgusu	=	$Connection->prepare("SELECT SUM(ToplamUrunFiyati) AS ToplamUcret FROM siparisler WHERE UyeId = ? AND SiparisNumarasi = ?");
 				$KargoFiyatiIcinSiparislerSorgusu->execute([$KullaniciID, $SepetSepetNumarasi]);
 				$KargoFiyatiKaydi					=	$KargoFiyatiIcinSiparislerSorgusu->fetch(PDO::FETCH_ASSOC);
 					$ToplamUcretimiz	=	$KargoFiyatiKaydi["ToplamUcret"];
 				
 					if($ToplamUcretimiz>=$UcretsizKargoBaraji){
-						$SiparisiGuncelle	=	$VeritabaniBaglantisi->prepare("UPDATE siparisler SET KargoUcreti = ? WHERE UyeId = ? AND SiparisNumarasi = ?");
+						$SiparisiGuncelle	=	$Connection->prepare("UPDATE siparisler SET KargoUcreti = ? WHERE UyeId = ? AND SiparisNumarasi = ?");
 						$SiparisiGuncelle->execute([0, $SepettekiUyeId, $SepetSepetNumarasi]);
 					}
 					
@@ -112,7 +112,7 @@ if(isset($_SESSION["Kullanici"])){
 			}
 		}else{
 			if($GelenTaksitSecimi!=""){
-				$SepetiGuncelle		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET OdemeSecimi = ?, TaksitSecimi = ? WHERE UyeId = ?");
+				$SepetiGuncelle		=	$Connection->prepare("UPDATE sepet SET OdemeSecimi = ?, TaksitSecimi = ? WHERE UyeId = ?");
 				$SepetiGuncelle->execute([$GelenOdemeTuruSecimi, $GelenTaksitSecimi, $KullaniciID]);
 				$SepetKontrol		=	$SepetiGuncelle->rowCount();
 				

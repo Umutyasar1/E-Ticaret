@@ -7,7 +7,7 @@ if(isset($_SESSION["Yonetici"])){
 	}
 
 	if($GelenID!=""){
-		$IcerikSilmeSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM sorular WHERE id = ? LIMIT 1");
+		$IcerikSilmeSorgusu		=	$Connection->prepare("DELETE FROM sorular WHERE id = ? LIMIT 1");
 		$IcerikSilmeSorgusu->execute([$GelenID]);
 		$IcerikSilmeKontrol		=	$IcerikSilmeSorgusu->rowCount();
 

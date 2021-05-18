@@ -6,7 +6,7 @@ if(isset($_SESSION["Yonetici"])){
 		$GelenID			=	"";
 	}
 	
-	$IceriklerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sorular WHERE id = ? LIMIT 1");
+	$IceriklerSorgusu	=	$Connection->prepare("SELECT * FROM sorular WHERE id = ? LIMIT 1");
 	$IceriklerSorgusu->execute([$GelenID]);
 	$IceriklerSayisi	=	$IceriklerSorgusu->rowCount();
 	$IceriklerBilgisi	=	$IceriklerSorgusu->fetch(PDO::FETCH_ASSOC);

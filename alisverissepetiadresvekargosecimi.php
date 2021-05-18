@@ -1,7 +1,7 @@
 <?php
 if(isset($_SESSION["Kullanici"])){
 
-$StokIcinSepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ?");
+$StokIcinSepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ?");
 $StokIcinSepettekiUrunlerSorgusu->execute([$KullaniciID]);
 $StokIcinSepettekiUrunSayisi		=	$StokIcinSepettekiUrunlerSorgusu->rowCount();
 $StokIcinSepettiKayitlar			=	$StokIcinSepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -12,16 +12,16 @@ if($StokIcinSepettekiUrunSayisi>0){
 		$StokIcinSepettekiUrununVaryantIdsi		=	$StokIcinSepettekiSatirlar["VaryantId"];
 		$StokIcinSepettekiUrununAdedi			=	$StokIcinSepettekiSatirlar["UrunAdedi"];
 		
-		$StokIcinUrunVaryantBilgileriSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
+		$StokIcinUrunVaryantBilgileriSorgusu	=	$Connection->prepare("SELECT * FROM urunvaryantlari WHERE id = ? LIMIT 1");
 		$StokIcinUrunVaryantBilgileriSorgusu->execute([$StokIcinSepettekiUrununVaryantIdsi]);
 		$StokIcinVaryantKaydi					=	$StokIcinUrunVaryantBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 			$StokIcinUrununStokAdedi	=	$StokIcinVaryantKaydi["StokAdedi"];
 	
 		if($StokIcinUrununStokAdedi==0){
-			$SepetSilSorgusu		=	$VeritabaniBaglantisi->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
+			$SepetSilSorgusu		=	$Connection->prepare("DELETE FROM sepet WHERE id = ? AND UyeId = ? LIMIT 1");
 			$SepetSilSorgusu->execute([$StokIcinSepetIdsi, $KullaniciID]);
 		}elseif($StokIcinSepettekiUrununAdedi>$StokIcinUrununStokAdedi){
-			$SepetGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
+			$SepetGuncellemeSorgusu		=	$Connection->prepare("UPDATE sepet SET UrunAdedi= ? WHERE id = ? AND UyeId = ? LIMIT 1");
 			$SepetGuncellemeSorgusu->execute([$StokIcinUrununStokAdedi, $StokIcinSepetIdsi, $KullaniciID]);
 		}
 	}
@@ -46,7 +46,7 @@ if($StokIcinSepettekiUrunSayisi>0){
 						<td align="right" style="background: #CCCCCC; font-weight: bold;"><a href="index.php?SK=70" style="color: #646464; text-decoration: none; font-weight: bold;">+ Yeni Adres Ekle&nbsp;</a></td>
 					</tr>
 					<?php
-					$SepettekiUrunlerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
+					$SepettekiUrunlerSorgusu	=	$Connection->prepare("SELECT * FROM sepet WHERE UyeId = ? ORDER BY id DESC");
 					$SepettekiUrunlerSorgusu->execute([$KullaniciID]);
 					$SepettekiUrunSayisi		=	$SepettekiUrunlerSorgusu->rowCount();
 					$SepettiKayitlar			=	$SepettekiUrunlerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ if($StokIcinSepettekiUrunSayisi>0){
 							$SepettekiUrununVaryantIdsi		=	$SepetSatirlari["VaryantId"];
 							$SepettekiUrununAdedi			=	$SepetSatirlari["UrunAdedi"];
 
-							$UrunBilgileriSorgusu			=	$VeritabaniBaglantisi->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
+							$UrunBilgileriSorgusu			=	$Connection->prepare("SELECT * FROM urunler WHERE id = ? LIMIT 1");
 							$UrunBilgileriSorgusu->execute([$SepettekiUrununIdsi]);
 							$UrunKaydi						=	$UrunBilgileriSorgusu->fetch(PDO::FETCH_ASSOC);
 								$UrununFiyati			=	$UrunKaydi["UrunFiyati"];
@@ -101,7 +101,7 @@ if($StokIcinSepettekiUrunSayisi>0){
 							$OdenecekToplamTutariBicimlendir		=	FiyatBicimlendir($OdenecekToplamTutariHesapla);
 						}
 
-					$AdreslerSorgusu	=	$VeritabaniBaglantisi->prepare("SELECT * FROM adresler WHERE UyeId = ? ORDER BY id DESC");
+					$AdreslerSorgusu	=	$Connection->prepare("SELECT * FROM adresler WHERE UyeId = ? ORDER BY id DESC");
 					$AdreslerSorgusu->execute([$KullaniciID]);
 					$AdresSayisi		=	$AdreslerSorgusu->rowCount();
 					$AdresKayitlari		=	$AdreslerSorgusu->fetchAll(PDO::FETCH_ASSOC);
@@ -141,7 +141,7 @@ if($StokIcinSepettekiUrunSayisi>0){
 					<tr height="40">
 						<td colspan="2" align="left"><table width="800" align="center" border="0" cellpadding="0" cellspacing="0">
 							<tr><?php
-								$KargolarSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM kargofirmalari");
+								$KargolarSorgusu		=	$Connection->prepare("SELECT * FROM kargofirmalari");
 								$KargolarSorgusu->execute();
 								$KargoSayisi			=	$KargolarSorgusu->rowCount();
 								$KargoKayitlari			=	$KargolarSorgusu->fetchAll(PDO::FETCH_ASSOC);

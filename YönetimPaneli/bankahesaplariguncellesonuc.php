@@ -54,12 +54,12 @@ if(isset($_SESSION["Yonetici"])){
 		
 	if(($GelenID!="") and ($GelenBankaAdi!="") and ($GelenSubeAdi!="") and ($GelenSubeKodu!="") and ($GelenKonumSehir!="") and ($GelenKonumUlke!="") and ($GelenParaBirimi!="") and ($GelenHesapSahibi!="") and ($GelenHesapNumarasi!="") and ($GelenIbanNumarasi!="")){
 	
-		$HesapGuncellemeSorgusu		=	$VeritabaniBaglantisi->prepare("UPDATE bankahesaplarimiz SET BankaAdi = ?, KonumSehir = ?, KonumUlke = ?, SubeAdi = ?, SubeKodu = ?, ParaBirimi = ?, HesapSahibi = ?, HesapNumarasi = ?, IbanNumarasi = ? WHERE id = ? LIMIT 1");
+		$HesapGuncellemeSorgusu		=	$Connection->prepare("UPDATE bankahesaplarimiz SET BankaAdi = ?, KonumSehir = ?, KonumUlke = ?, SubeAdi = ?, SubeKodu = ?, ParaBirimi = ?, HesapSahibi = ?, HesapNumarasi = ?, IbanNumarasi = ? WHERE id = ? LIMIT 1");
 		$HesapGuncellemeSorgusu->execute([$GelenBankaAdi, $GelenKonumSehir, $GelenKonumUlke, $GelenSubeAdi, $GelenSubeKodu, $GelenParaBirimi, $GelenHesapSahibi, $GelenHesapNumarasi, $GelenIbanNumarasi, $GelenID]);
 		$HesapGuncellemeKontrol		=	$HesapGuncellemeSorgusu->rowCount();
 	
 		if(($GelenBankaLogosu["name"]!="") and ($GelenBankaLogosu["type"]!="") and ($GelenBankaLogosu["tmp_name"]!="") and ($GelenBankaLogosu["error"]==0) and ($GelenBankaLogosu["size"]>0)){
-			$BankaResmiSorgusu		=	$VeritabaniBaglantisi->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
+			$BankaResmiSorgusu		=	$Connection->prepare("SELECT * FROM bankahesaplarimiz WHERE id = ? LIMIT 1");
 			$BankaResmiSorgusu->execute([$GelenID]);
 			$ResimKontrol			=	$BankaResmiSorgusu->rowCount();
 			$ResimBilgisi			=	$BankaResmiSorgusu->fetch(PDO::FETCH_ASSOC);
@@ -90,7 +90,7 @@ if(isset($_SESSION["Yonetici"])){
 				   $BankaLogosuYukle->process($VerotIcinKlasorYolu);
 
 					if($BankaLogosuYukle->processed){
-						$HesapResmiGuncellemeSorgusu	=	$VeritabaniBaglantisi->prepare("UPDATE bankahesaplarimiz SET BankaLogosu = ? WHERE id = ? LIMIT 1");
+						$HesapResmiGuncellemeSorgusu	=	$Connection->prepare("UPDATE bankahesaplarimiz SET BankaLogosu = ? WHERE id = ? LIMIT 1");
 						$HesapResmiGuncellemeSorgusu->execute([$ResimIcinYeniDosyaAdi, $GelenID]);
 						$HesapResmiGuncellemeKontrol	=	$HesapResmiGuncellemeSorgusu->rowCount();
 						
